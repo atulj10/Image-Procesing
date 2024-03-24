@@ -8,7 +8,7 @@ This is a web application for image processing using Flask for the backend and R
 #### 1 Clone the Repository:
 
 ```http
-  git clone <repository-url>
+  git clone https://github.com/atulj10/Image-Procesing.git
 ```
 
 #### 2 Backend Setup:
