@@ -12,40 +12,31 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Function to check if the filename has an allowed extension
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Check if the 'uploads' directory exists, if not, create it
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# Function to process the uploaded image
 def process_image(image_path):
     config_file = 'ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
     frozen_model = 'frozen_inference_graph.pb'
     
-    # Tenserflow object detection model
     model = cv2.dnn_DetectionModel(frozen_model, config_file)
 
-    # Reading Coco dataset
     classLabels = []
     with open('yolo3.txt', 'rt') as fpt:
         classLabels = fpt.read().rstrip('\n').split('\n')
 
-    # Model training
     model.setInputSize(320, 320)
     model.setInputScale(1.0 / 127.5)
     model.setInputMean((127.5, 127.5, 127.5))
     model.setInputSwapRB(True)
 
-    # Reading image
     img = cv2.imread(image_path)
 
-    # Object detection
     ClassIndex, confidence, bbox = model.detect(img, confThreshold=0.5)
 
-    # Plotting boxes
     font_scale = 3
     font = cv2.FONT_HERSHEY_PLAIN
     for ClassInd, conf, boxes in zip(ClassIndex.flatten(), confidence.flatten(), bbox):
@@ -55,7 +46,6 @@ def process_image(image_path):
         cv2.putText(img, classLabels[ClassInd - 1], (boxes[0] + 10, boxes[1] + 40), font, fontScale=font_scale,
                     color=(0, 0, 255), thickness=3)
 
-    # Save the processed image
     processed_image_path = os.path.join(UPLOAD_FOLDER, 'processed_image.jpg')
     cv2.imwrite(processed_image_path, img)
 
@@ -80,7 +70,6 @@ def process_uploaded_image():
         # print(f'In the outputLabel: {labels}, Number: {label_counts}')
 
     
-        
         with open(processed_image_path, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         
