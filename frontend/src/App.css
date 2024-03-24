@@ -23,3 +23,20 @@
 .processed-image {
   width: 45%;
 }
+
+
+/* =====================================================
+===================================================== */
+
+label{
+  cursor: pointer;
+  padding: 3% 5%;
+  border: 2px dashed grey;
+  border-radius: 20px;
+}
+
+#upload-photo{
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css'
 
 function App() {
   const [file, setFile] = useState(null);
@@ -13,7 +14,7 @@ function App() {
     formData.append('file', selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:5000/process-image', formData, {
+      const response = await axios.post('http://localhost:5001/process-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -45,7 +46,10 @@ function App() {
       </nav>
       <div className='text-center p-5'>
         <h1 className='m-4'>Image Processing App</h1>
-        <input className='m-3' type="file" accept="image/*" onChange={handleImageUpload} />
+        <div>
+          <label for="upload-photo"><h2 className='text-secondary'>{file ? `${processedImage? "Done ✔️" : "Processing image....."}`:"Browse File"}</h2></label>
+          <input className=' m-3' type="file" accept="image/*" onChange={handleImageUpload} id='upload-photo' />
+        </div>
         <div className='row'>
           <div className='col-lg-6 my-4'> <h1>Original Image</h1> {file && <img src={URL.createObjectURL(file)} alt="Uploaded" style={{ width: '75%' }} />}</div>
           <div className='col-lg-6 my-4'> <h1>Processed Image</h1>{processedImage && <img src={processedImage} alt="Processed" style={{ width: '75%' }} />}</div>

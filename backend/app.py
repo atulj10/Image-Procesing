@@ -91,4 +91,4 @@ def get_processed_image():
     return send_file(processed_image_path, mimetype='image/jpeg')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=5001)
