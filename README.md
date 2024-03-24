@@ -69,10 +69,10 @@ This is a web application for image processing using Flask for the backend and R
 
 ## Author
 
--Atul Anand
+- Atul Anand
 
 
 ## License
 
-This project is licensed under the MIT License.
+- This project is licensed under the MIT License.
 
