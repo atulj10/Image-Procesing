@@ -24,13 +24,13 @@ This is a web application for image processing using Flask for the backend and R
 ```
 
 #### 3 Frontend Setup:
--Navigate to the frontend directory:
+- Navigate to the frontend directory:
 
 ```http
   cd frontend
 ```
 
--Install Node.js dependencies:
+- Install Node.js dependencies:
 
 ```http
   npm install
