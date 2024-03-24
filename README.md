@@ -36,12 +36,6 @@ This is a web application for image processing using Flask for the backend and R
   npm install
 ```
 
-#### 1 Clone the Repository:
-
-```http
-  git clone <repository-url>
-```
-
 
 ## Running the Applicaton
 
