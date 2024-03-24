@@ -7,36 +7,43 @@
   background-color: #333;
   color: white;
   padding: 1rem;
-}
-
-.upload-section {
-  margin-top: 2rem;
-}
-
-.image-display {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 2rem;
-}
-
-.original-image,
-.processed-image {
-  width: 45%;
+  padding-top: 0;
 }
 
 
 /* =====================================================
 ===================================================== */
 
-label{
+label {
   cursor: pointer;
   padding: 3% 5%;
   border: 2px dashed grey;
   border-radius: 20px;
 }
 
-#upload-photo{
+.upload-btn {
+  padding: 1% 2.5%;
+  margin: 1%;
+  border-radius: 10px;
+  border-color: black;
+  background-color: white;
+  border-style: solid;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+#upload-photo {
   opacity: 0;
   position: absolute;
   z-index: -1;
+}
+
+.image-block {
+  padding: 0.5%;
+  border: 2.5px dashed rgb(102, 102, 102);
+  border-radius: 20px;
 }

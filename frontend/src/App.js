@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faCloudArrowUp, faHome, faHourglassHalf, faMousePointer } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   const [file, setFile] = useState(null);
   const [processedImage, setProcessedImage] = useState(null);
+  const [processing, setProcesing] = useState(false)
 
-  const handleImageUpload = async (event) => {
+  const handleSubmit = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+  }
+
+  const handleRefresh=()=>{
+    window.location.reload()
+    setFile(null)
+    setProcesing(false)
+    setProcessedImage(null)
+  }
+
+  const handleImageUpload = async () => {
+
+    setProcesing(true)
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append('file', file);
 
     try {
       const response = await axios.post('http://localhost:5001/process-image', formData, {
@@ -20,7 +35,7 @@ function App() {
         }
       });
       console.log(response)
-      setProcessedImage(`data:image/jpeg;base64, ${response.data.processed_image}`); // Set processed image
+      setProcessedImage(`data:image/jpeg;base64, ${response.data.processed_image}`);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -44,15 +59,19 @@ function App() {
           </div>
         </div>
       </nav>
-      <div className='text-center p-5'>
+      <div className='text-center p-5 py-0'>
         <h1 className='m-4'>Image Processing App</h1>
         <div>
-          <label for="upload-photo"><h2 className='text-secondary'>{file ? `${processedImage? "Done ✔️" : "Processing image....."}`:"Browse File"}</h2></label>
-          <input className=' m-3' type="file" accept="image/*" onChange={handleImageUpload} id='upload-photo' />
+          <label for="upload-photo"><h2 className='text-secondary'>{(file) ? (processedImage) ? <><h1 className='text-success'>Done<FontAwesomeIcon className='mx-3' icon={faCheck} /></h1></> : (processing) ? <><h1>Processing....<FontAwesomeIcon className='mx-2' icon={faHourglassHalf} /></h1></> : <><FontAwesomeIcon className="mb-3" icon={faMousePointer} /><h1>Click to Process</h1></> : <><FontAwesomeIcon className='fa-2x' icon={faCloudArrowUp} /><h2>Upload Image</h2></>}</h2></label>
+          <input type="file" accept="image/*" onChange={handleSubmit} id='upload-photo' />
+        </div>
+        <div className='text-center'>
+          <button className='upload-btn ' onClick={handleImageUpload} style={{cursor:`${(!file)?"not-allowed":"pointer"}`}} disabled={!file}>{(processing) ? (processedImage) ? "COMPLETED": "PROCESSING..." : "PROCESS"}</button>
+          <button className='upload-btn ' onClick={handleRefresh}>REFRESH</button>
         </div>
         <div className='row'>
-          <div className='col-lg-6 my-4'> <h1>Original Image</h1> {file && <img src={URL.createObjectURL(file)} alt="Uploaded" style={{ width: '75%' }} />}</div>
-          <div className='col-lg-6 my-4'> <h1>Processed Image</h1>{processedImage && <img src={processedImage} alt="Processed" style={{ width: '75%' }} />}</div>
+          <div className='col-lg-6 my-4'> <h1>Original Image</h1> {file && <img className='image-block' src={URL.createObjectURL(file)} alt="Uploaded" style={{ width: '75%' }} />}</div>
+          <div className='col-lg-6 my-4'> <h1>Processed Image</h1>{processedImage && <img className='image-block' src={processedImage} alt="Processed" style={{ width: '75%' }} />}</div>
         </div>
       </div>
     </>

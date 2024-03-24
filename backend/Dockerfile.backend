@@ -1,38 +1,3 @@
-# # Use the official Python image as the base image
-# FROM python:3.9-slim AS builder
-
-# # Set the working directory in the container
-# WORKDIR /app
-
-# # Copy the backend source code
-# COPY . .
-
-# # Install dependencies
-# RUN pip install --no-cache-dir flask opencv-python-headless numpy flask-cors
-
-# # Set up virtual environment
-# RUN python -m venv venv
-
-# # Activate the virtual environment
-# SHELL ["/bin/bash", "-c"]
-# RUN source venv/bin/activate
-
-# # Stage 2: Final image
-# FROM python:3.9-slim
-
-# # Set the working directory in the container
-# WORKDIR /app
-
-# # Copy the built backend code from the previous stage
-# COPY --from=builder /app .
-
-# # Expose port 5001 to allow external access
-# EXPOSE 5001
-
-# # Command to run the Flask application
-# CMD ["python", "app.py"]
-
-
 FROM python:3
 
 WORKDIR /app

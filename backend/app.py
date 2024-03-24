@@ -50,6 +50,8 @@ def process_image(image_path):
     font = cv2.FONT_HERSHEY_PLAIN
     for ClassInd, conf, boxes in zip(ClassIndex.flatten(), confidence.flatten(), bbox):
         cv2.rectangle(img, boxes, (0, 255, 0), 3)
+        label = classLabels[ClassInd - 1]
+        print(f'Label: {label}, Number: {ClassInd}')
         cv2.putText(img, classLabels[ClassInd - 1], (boxes[0] + 10, boxes[1] + 40), font, fontScale=font_scale,
                     color=(0, 0, 255), thickness=3)
 
@@ -57,7 +59,7 @@ def process_image(image_path):
     processed_image_path = os.path.join(UPLOAD_FOLDER, 'processed_image.jpg')
     cv2.imwrite(processed_image_path, img)
 
-    return processed_image_path
+    return processed_image_path,label,ClassInd
 
 @app.route('/process-image', methods=['POST'])
 def process_uploaded_image():
@@ -73,10 +75,12 @@ def process_uploaded_image():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
         
-        # Process the uploaded image
-        processed_image_path = process_image(file_path)
+        processed_image_path, labels, label_counts = process_image(file_path)
+
+        # print(f'In the outputLabel: {labels}, Number: {label_counts}')
+
+    
         
-        # Read the processed image file
         with open(processed_image_path, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         
